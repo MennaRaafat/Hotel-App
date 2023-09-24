@@ -98,4 +98,13 @@ class BookingController extends Controller
        $book_cancel -> delete();
        return redirect()->route('bookingIndex')->with('fail' , 'Something Went Wrong');
       }
+
+      public function userBook(){
+        $user = Auth::id();
+        $user_book = Booking::where('user_id' , $user)->get();
+
+        $roomIds = $user_book->pluck('room_id')->toArray();
+        return view('bookings.userBook' , ['user_book'=>$user_book]);
+
+      }
     }

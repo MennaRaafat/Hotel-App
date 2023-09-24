@@ -51,6 +51,8 @@ Route::get('/booking/sucess', [App\Http\Controllers\BookingController::class, 'p
 
 Route::get('/booking/fail', [App\Http\Controllers\BookingController::class, 'payment_fail'])->name('payment_fail')->middleware('auth');
 
+Route::get('/booking/myBook', [App\Http\Controllers\BookingController::class, 'userBook'])->name('userBook')->middleware('auth');
+
 
 
 

@@ -54,6 +54,12 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('bookingCreate') }}">Book</a>
                             </li>
+                            @if(auth()->user()->user_type == 'user')
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('userBook') }}">My Booking</a>
+                            </li>
+                            @endif
+
                             @if(auth()->user()->user_type == 'admin')
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('bookingIndex') }}">Bookings</a>

@@ -40,7 +40,7 @@ Route::post('/admin/department/store', [App\Http\Controllers\DepartmentControlle
 Route::get('/admin/staff', [App\Http\Controllers\StaffController::class, 'index'])->name('staffIndex')->middleware(['auth','admin.auth']);
 Route::get('/admin/staff/add', [App\Http\Controllers\StaffController::class, 'create'])->name('staffCreate')->middleware(['auth','admin.auth']);
 Route::post('/admin/staff/store', [App\Http\Controllers\StaffController::class, 'store'])->name('staffStore')->middleware(['auth','admin.auth']);
-
+Route::get('/admin/staff/{id}', [App\Http\Controllers\StaffController::class, 'show'])->name('staffShow')->middleware(['auth','admin.auth']);
 
 Route::get('/admin/booking', [App\Http\Controllers\BookingController::class, 'index'])->name('bookingIndex')->middleware(['auth','admin.auth']);
 Route::get('/booking/add', [App\Http\Controllers\BookingController::class, 'create'])->name('bookingCreate')->middleware('auth');

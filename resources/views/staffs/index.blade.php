@@ -28,7 +28,7 @@
     <td>{{$staff->salary_amount}}</td>
     <td>{{$staff->departments->name}}</td>
     <td>
-        <a href="" class="btn btn-primary">View</a> &nbsp;&nbsp;
+        <a href="{{ url('/admin/staff/'.$staff -> id) }}" class="btn btn-primary">View</a> &nbsp;&nbsp;
         <a href="" class="btn btn-success">Edit</a> &nbsp;&nbsp;
         <a href="" class="btn btn-danger">Delete</a>
     </td>

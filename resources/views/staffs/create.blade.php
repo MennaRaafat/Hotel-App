@@ -6,7 +6,7 @@
 
 <div class="card">
   <div class="card-header">
-    Room Types
+    Add New Staff Member
   </div>
   <div class="card-body">
 

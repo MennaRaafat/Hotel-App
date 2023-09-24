@@ -51,6 +51,27 @@
                                 </li>
                             @endif
                         @else
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('bookingCreate') }}">Book</a>
+                            </li>
+                            @if(auth()->user()->user_type == 'admin')
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('bookingIndex') }}">Bookings</a>
+                            </li> 
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('roomIndex') }}">Rooms</a>
+                            </li>                                
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('roomTypeIndex') }}">Rooms Type</a>
+                            </li>                                
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('departmentIndex') }}">Department</a>
+                            </li>                            
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('staffIndex') }}">Staff</a>
+                            </li>
+                            @endif
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }}

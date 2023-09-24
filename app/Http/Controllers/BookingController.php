@@ -25,7 +25,7 @@ class BookingController extends Controller
     
        public function create(){
         $rooms = Room::all(); 
-        $users = User::all();
+        $users = User::where('user_type', '!=', 'admin')->get();
         return view('bookings.create' , ['rooms'=>$rooms , 'users'=>$users]);
        }
        

@@ -6,6 +6,7 @@
 <div class="card">
   <div class="card-header">
     Room Types
+    <a class="btn btn-sucess" href="{{ route('roomTypeCreate') }}" style="float:right;">Create</a>
   </div>
   <div class="card-body">
 

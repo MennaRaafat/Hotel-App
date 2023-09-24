@@ -5,7 +5,8 @@
 <div class = "container">
 <div class="card">
   <div class="card-header">
-    Rooms
+    Staff
+    <a class="btn btn-sucess" href="{{ route('staffCreate') }}" style="float:right;">Create</a>
   </div>
   <div class="card-body">
 

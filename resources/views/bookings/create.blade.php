@@ -12,6 +12,16 @@
 
 <form action="/booking/store" method="POST">
    @csrf
+
+   @if(auth()->user()->user_type == 'admin')
+     <label>Customer</label>
+     <select id="user_id" class="form-control" name="user_id">
+     <option value="0">Select Customer</option>
+     @foreach($users as $user)
+     <option value="{{$user->id}}">{{$user->name}}</option>
+     @endforeach
+     </select>
+   @endif
    <label>CheckIn Date</label>
    <input id="checkin_date" class="form-control" name="checkin_date" type="date">
 
@@ -28,11 +38,7 @@
    <select id="room_id" class="form-control" name="room_id">
    <option value="">Select Your Room</option>
    </select>
-
-   <!-- <button type="submit" class="btn btn-success mt-3">Book</button> -->
-   <!-- <form action="/checkout.php" method="POST"> -->
-        <button type="submit" id="checkout-button" class="btn btn-success mt-3" >Checkout</button>
-      <!-- </form> -->
+    <button type="submit" id="checkout-button" class="btn btn-success mt-3" >Checkout</button>
 </form>
 
 </div>

@@ -6,6 +6,7 @@
 <div class="card">
   <div class="card-header">
     Hotel Bookings
+    <a class="btn btn-sucess" href="{{ route('bookingCreate') }}" style="float:right;">Book Now</a>
   </div>
   <div class="card-body">
 

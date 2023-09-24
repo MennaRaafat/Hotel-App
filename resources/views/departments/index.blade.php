@@ -6,6 +6,8 @@
 <div class="card">
   <div class="card-header">
   Departments
+  <a class="btn btn-sucess" href="{{ route('departmentCreate') }}" style="float:right;">Create</a>
+
   </div>
   <div class="card-body">
 

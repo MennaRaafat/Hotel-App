@@ -27,7 +27,16 @@ Route::post('/admin/roomType/store', [App\Http\Controllers\RoomTypeController::c
 Route::get('/admin/roomType/{id}', [App\Http\Controllers\RoomTypeController::class, 'show'])->name('roomTypeShow')->middleware(['auth','admin.auth']);
 
 
-Route::get('/admin/room', [App\Http\Controllers\RoomController::class, 'index'])->name('roomIndex')->middleware('auth');
+
+Route::post('/room/{id}/comment', [App\Http\Controllers\CommentController::class, 'store'])->name('roomComment')->middleware('auth');
+
+Route::get('/room/{id}/comment', [App\Http\Controllers\CommentController::class, 'index'])->name('roomCommentIndex')->middleware('auth');
+
+
+Route::get('/room', [App\Http\Controllers\RoomController::class, 'index'])->name('roomIndex')->middleware('auth');
+
+Route::get('/room/{id}', [App\Http\Controllers\RoomController::class, 'show'])->name('roomShow')->middleware('auth');
+
 Route::get('/admin/room/add', [App\Http\Controllers\RoomController::class, 'create'])->name('roomCreate')->middleware(['auth','admin.auth']);
 Route::post('/admin/room/store', [App\Http\Controllers\RoomController::class, 'store'])->name('roomStore')->middleware(['auth','admin.auth']);
 

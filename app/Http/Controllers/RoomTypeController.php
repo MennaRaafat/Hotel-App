@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\RoomType;
 use App\Models\RoomTypeImage;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 
 class RoomTypeController extends Controller
@@ -31,12 +33,19 @@ class RoomTypeController extends Controller
     $roomType -> details = $request->details;
     $roomType -> price = $request->price;
     $roomType ->save();
-
-    foreach($request->file('images') as $image){
-      $imagePath = $image -> store('public/images');
+    foreach($request -> file('images') as $image){
+      // $imagePath = $image -> store('public/images');
+      // dd($image);
       $roomTypeImage = new RoomTypeImage;
       $roomTypeImage->room_type_id = $roomType->id;
-      $roomTypeImage->image = $imagePath;
+
+      $content=file_get_contents($image);
+      $ext = $image->extension();
+      $filename = Str::random(25);
+      $file_path = "images/$filename.$ext";
+      Storage::disk('public') -> put( $file_path , $content);
+      $roomTypeImage->image = $file_path;
+
       $roomTypeImage->description = $request->title;
       $roomTypeImage->save();
     }

@@ -11,18 +11,25 @@ class RoomController extends Controller
     public function index(){
         $rooms = Room::all(); 
         return view('rooms.index' , ['rooms' => $rooms]);
-       }
+    }
     
-       public function create(){
+    public function create(){
         $roomTypes = RoomType::all(); 
         return view('rooms.create', ['roomTypes' => $roomTypes]);
-       }
+    }
     
-       public function store(Request $request){
+    public function store(Request $request){
         $roomType = Room::create($request -> all());
         if($roomType){
             return redirect()->route('roomIndex');
         }
-      }
+    }
+
+    public function show($id){
+        $room = Room::find($id);
+        return view('rooms.show' , ['room' => $room]);
+    }
+
+    
 
 }

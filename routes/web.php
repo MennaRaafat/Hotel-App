@@ -52,8 +52,10 @@ Route::post('/admin/staff/store', [App\Http\Controllers\StaffController::class, 
 Route::get('/admin/staff/{id}', [App\Http\Controllers\StaffController::class, 'show'])->name('staffShow')->middleware(['auth','admin.auth']);
 
 Route::get('/admin/booking', [App\Http\Controllers\BookingController::class, 'index'])->name('bookingIndex')->middleware(['auth','admin.auth']);
-Route::get('/booking/add', [App\Http\Controllers\BookingController::class, 'create'])->name('bookingCreate')->middleware('auth');
-Route::get('/admin/booking/available/{checkin_date}', [App\Http\Controllers\BookingController::class, 'available_rooms'])->name('available_rooms')->middleware('auth');
+
+Route::get('/booking/add/', [App\Http\Controllers\BookingController::class, 'create'])->name('bookingCreate')->middleware('auth');
+
+Route::get('/booking/available/{checkin_date}/', [App\Http\Controllers\BookingController::class, 'available_rooms'])->name('available_rooms')->middleware('auth');
 Route::post('/booking/store', [App\Http\Controllers\BookingController::class, 'store'])->name('bookingStore')->middleware('auth');
 
 Route::get('/booking/sucess', [App\Http\Controllers\BookingController::class, 'payment_success'])->name('payment_success')->middleware('auth');

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Models\Comment;
+use App\Events\NewComment;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
@@ -18,8 +19,10 @@ class CommentController extends Controller
         $comment->user_id = Auth::id();
         $comment->room_id = $id;
         $comment->comment = $request->comment;
-
         if($comment->save()){
-            return redirect()->back();
-        }    }
+            // broadcast(new NewComment($comment))->toOthers();
+            event(new NewComment($comment));
+            return response()->json($comment);
+        }    
+    }
 }

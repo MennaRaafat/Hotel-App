@@ -23,10 +23,18 @@ class BookingController extends Controller
         return view('bookings.show' , ['booking' => $booking ]);
        }
     
-       public function create(){
+       public function create(Request $request){
+        $id = $request->query('id');
+        $room_name=null;
+        $room_id=null;
+        if($id){
+         $room = Room::find($id);
+         $room_name=$room->title. '-' .$room->RoomType->title;
+         $room_id = $room->id;
+        }
         $rooms = Room::all(); 
         $users = User::where('user_type', '!=', 'admin')->get();
-        return view('bookings.create' , ['rooms'=>$rooms , 'users'=>$users]);
+        return view('bookings.create' , ['rooms'=>$rooms , 'users'=>$users , 'room_name'=>$room_name , 'room_id' => $room_id]);
        }
        
        public function store(Request $request){
@@ -68,17 +76,30 @@ class BookingController extends Controller
         return redirect($checkout_session->url);
       }
 
-
-      public function available_rooms($checkin_date){
+      public function available_rooms(Request $request,$checkin_date){
+        $id = $request->query('id');            
         $rooms = DB::select("SELECT * FROM rooms WHERE id NOT IN (SELECT room_id FROM bookings WHERE '$checkin_date' BETWEEN checkin_date AND checkout_date)");
-        $data=[];
-        foreach($rooms as $room){
+        if($id){
+          $rooms_booked = DB::select("SELECT * FROM bookings WHERE '$checkin_date' BETWEEN checkin_date AND checkout_date AND room_id = $id");
+          if($rooms_booked){
+            $msg = "You Can't Book THis Room because It's aleardy booked in this time choose another room";
+            $data=[];
+            foreach($rooms as $room){
+              $type=RoomType::find($room->room_type_id);
+              $data[]=['room'=>$room , 'type' =>$type , 'msg'=>$msg];
+          }
+          return response()->json($data);
+          }
+        }else{
+
+         $data=[];
+         foreach($rooms as $room){
           $type=RoomType::find($room->room_type_id);
           $data[]=['room'=>$room , 'type' =>$type];
-        }
-        return response()->json($data);
       }
-
+      return response()->json($data);
+    }
+    }
 
       public function payment_success(Request $request){
 
@@ -86,7 +107,11 @@ class BookingController extends Controller
         $session = \Stripe\Checkout\Session::retrieve($request->get('session_id'));
         // $customer = \Stripe\Checkout\Session::retrieve($request->customer);
         if( $session->payment_status){
-          return redirect()->route('bookingIndex')->with('sucess' , 'Data is Added Successfully');
+          if(auth()->user()->user_type=='admin'){
+            return redirect()->route('bookingIndex')->with('sucess' , 'Data is Added Successfully');
+          }else{
+            return redirect()->route('userBook')->with('sucess' , 'Data is Added Successfully');
+          }
         }
 
       }

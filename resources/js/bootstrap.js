@@ -25,7 +25,6 @@ window.Pusher = Pusher;
 window.Echo = new Echo({
     broadcaster: 'pusher',
     key: import.meta.env.VITE_PUSHER_APP_KEY,
-    wsPort: import.meta.env.VITE_PUSHER_PORT ?? 80,
-    wssPort: import.meta.env.VITE_PUSHER_PORT ?? 443,
-    enabledTransports: ['ws', 'wss'],
+    cluster:import.meta.env.VITE_PUSHER_APP_CLUSTER,
+    encrypted:true
 });

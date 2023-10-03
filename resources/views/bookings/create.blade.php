@@ -2,8 +2,10 @@
 
 @section('content')
 
-<div class="container">
+<div class="container" >
+  <div id="new">
 
+  </div>
 <div class="card">
   <div class="card-header">
     Book Your Room Now
@@ -33,11 +35,16 @@
 
    <label>Children Number</label>
    <input class="form-control" name="childrens_number" type="number">
-
    <label>Available Rooms</label>
+   @if($room_name != null)
+   <select id="room_id" class="form-control" name="room_id">
+   <option value="{{$room_id}}" selected="selected">{{$room_name}}</option>
+   </select>
+   @else
    <select id="room_id" class="form-control" name="room_id">
    <option value="">Select Your Room</option>
    </select>
+   @endif
     <button type="submit" id="checkout-button" class="btn btn-success mt-3" >Checkout</button>
 </form>
 
@@ -46,21 +53,43 @@
 </div>
 
 <script>
+
 $(document).ready(function(){
   $("#checkin_date").on('blur' , function(){
     var checkin_date = $(this).val();
-    $.ajax({
-      url:"/admin/booking/available/"+checkin_date,
+    var room_id = $("#room_id").val();
+    if(room_id !== ''){
+      $.ajax({
+        url: "/booking/available/"+checkin_date,
+        type:"GET",
+        data: { id:room_id },      
+        success:function(response){
+          var viewHtml = $("#new");
+          if(response[0].msg){
+            viewHtml.html('<p class="alert alert-danger" role="alert">' + response[0].msg + '</p>'); 
+            var roomsDrop =  $("#room_id");       
+            roomsDrop.empty();
+            roomsDrop.append($('<option></option>').attr('value', 0).text("Choose Another Room"));
+            $.each(response, function(index, row){
+              roomsDrop.append($('<option></option>').attr('value', row.room.id).text(row.room.title+" - "+row.type.title));
+      })
+    }}
+  })
+    }else{
+      $.ajax({
+      url:"/booking/available/"+checkin_date,
       success:function(response){
         var roomsDrop =  $("#room_id");
         $.each(response, function(index, row){
         roomsDrop.append($('<option></option>').attr('value', row.room.id).text(row.room.title+" - "+row.type.title));
-});
+      });
       },
       error:function(err){
         console.log(err);
       }
-    })
+    })      
+    }
+
   })
 })
 </script>

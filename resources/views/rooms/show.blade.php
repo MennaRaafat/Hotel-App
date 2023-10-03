@@ -43,25 +43,32 @@
 
 
 <script> 
+  var roomId = '{{ $room->id }}';
+
+  function listen(){
+   Echo.channel('room.'+roomId)
+       .listen('.my-event',function(e){
+       console.log("New comment received");
+       console.log(e.comment);
+      // $("#commentContent").prepend(comment + '<hr>');
+    });
+}
+
 $(document).ready(function(){
   var commentContent = $("#commentContent");
-  var roomId = '{{ $room->id }}';
 
   $.ajax({
       url:'/room/' + roomId + '/comment',
       method:"GET",
       success:function(response){
-        console.log(response);
         var html = '';
       response.forEach(function(comment){
-        console.log(comment.comment)
         html += '<p>' + comment.comment + '</p> <hr>';
       });
 
       commentContent.html(html);         
     }
 });
-
 
   $("#commentSubmit").on("click", function(e){
     e.preventDefault();
@@ -76,9 +83,12 @@ $(document).ready(function(){
       data: {'comment': comment},
       success: function(response){
         $("#comment").val('');
+        $("#commentContent").prepend(response.comment + '<hr>');
+        listen();
       }
     });
   });
+
 });
 </script>
 

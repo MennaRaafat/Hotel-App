@@ -49,8 +49,10 @@
   <div class="card-header">
   {{$room->title}}
   <a class="btn ml-5" href="{{ url('/room/'.$room -> id) }}">View</a>
-  <a class="btn btn-success" href="{{ route('bookingCreate') }}" style="float:right;">Book Now</a>
-  </div>
+  <!-- <a class="btn btn-success" href="{{ url('/booking/add/'.$room -> id) }}" style="float:right;">Book Now</a> -->
+  <a class="btn btn-success" href="{{ route('bookingCreate', ['id' => $room->id]) }}" style="float:right;">Book Now</a>
+
+</div>
   <div class="card-body">
     <h4>{{$room->title}} - {{$room->RoomType->title}}</h4>
     <h5>$ {{$room->RoomType->price}} / Day</h5>

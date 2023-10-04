@@ -3,7 +3,26 @@
 @section('content')
 
 <div class = "container">
-  @if(auth()->user()->user_type==='admin')
+
+@if(!auth()->user() || auth()->user()->user_type==='user')
+@foreach($rooms as $room)
+<div class="card mb-5">
+  <div class="card-header">
+  {{$room->title}}
+  <a class="btn ml-5" href="{{ url('/room/'.$room -> id) }}">View</a>
+  <!-- <a class="btn btn-success" href="{{ url('/booking/add/'.$room -> id) }}" style="float:right;">Book Now</a> -->
+  <a class="btn btn-success" href="{{ route('bookingCreate', ['id' => $room->id]) }}" style="float:right;">Book Now</a>
+
+</div>
+  <div class="card-body">
+    <h4>{{$room->title}} - {{$room->RoomType->title}}</h4>
+    <h5>$ {{$room->RoomType->price}} / Day</h5>
+  </div>
+</div>
+@endforeach
+
+
+@elseif(auth()->user() && auth()->user()->user_type==='admin')
 <div class="card">
   <div class="card-header">
     Rooms
@@ -41,24 +60,6 @@
 
   </div>
 </div>
-@endif
-
-@if(auth()->user()->user_type==='user')
-@foreach($rooms as $room)
-<div class="card mb-5">
-  <div class="card-header">
-  {{$room->title}}
-  <a class="btn ml-5" href="{{ url('/room/'.$room -> id) }}">View</a>
-  <!-- <a class="btn btn-success" href="{{ url('/booking/add/'.$room -> id) }}" style="float:right;">Book Now</a> -->
-  <a class="btn btn-success" href="{{ route('bookingCreate', ['id' => $room->id]) }}" style="float:right;">Book Now</a>
-
-</div>
-  <div class="card-body">
-    <h4>{{$room->title}} - {{$room->RoomType->title}}</h4>
-    <h5>$ {{$room->RoomType->price}} / Day</h5>
-  </div>
-</div>
-@endforeach
 @endif
 
 </div>
